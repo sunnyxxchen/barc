@@ -22,18 +22,21 @@ def bikeFE(x, y, psi, v, a, d_f, a0,m, Ff, theta, ts):
     process model
     """
     # external parameters
-    l_f                    = TODO
-    l_r                    = TODO
-    g                      = TODO
+    l_f                    = 1.5
+    l_r                    = 1.5
+    g                      = 9.81
 
     # compute slip angle
-    beta         = TODO
+    beta         = arctan(l_r/(l_f + l_r) * tan(d_f))
+
+    # compute external force
+    Fext = -a0 * v * v - Ff - m * g * sin(theta)
 
     # compute next state
-    x_next      = TODO 
-    y_next      = TODO
-    psi_next    = TODO
-    v_next      = TODO
+    x_next      = x + ts * v * cos(psi + beta)
+    y_next      = y + ts * v * sin(psi + beta)
+    psi_next    = psi + ts * v * sin(beta) / l_r
+    v_next      = v + ts * (a + Fext / m)
 
     return array([x_next, y_next, psi_next, v_next])
 
